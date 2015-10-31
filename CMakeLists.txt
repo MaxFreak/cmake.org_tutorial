@@ -21,6 +21,17 @@ set(PACKAGE_URL "http://www.CMake_Tutorial.com/") # empty leaves it undefined
 set(VERSION "${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_MICRO}")
 set(HEX_VERSION "0x0${BUILD_MAJOR}0${BUILD_MINOR}0${BUILD_MICRO}")
 
+# should we use cereal serialization?
+option (USE_CEREAL "Use cereal serialization" ON)
+
+# add the cereal header?
+#
+if (USE_CEREAL)
+    include_directories (".")
+    include_directories ("./cereal")
+#    include_directories ("${PROJECT_SOURCE_DIR}/cereal/")
+endif (USE_CEREAL)
+
 # should we use our own math functions?
 option (USE_MYMATH "Use tutorial provided math implementation" OFF)
 

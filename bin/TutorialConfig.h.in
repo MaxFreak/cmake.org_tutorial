@@ -1,4 +1,5 @@
 #cmakedefine USE_MYMATH
+#cmakedefine USE_CEREAL
 
 // does the platform provide exp and log functions?
 #cmakedefine HAVE_LOG
