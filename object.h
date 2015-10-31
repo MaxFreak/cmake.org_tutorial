@@ -8,6 +8,7 @@
 #include <ostream>
 #include <memory>
 #include <vector>
+#include <cassert>
 
 using std::string;
 using std::ostream;
@@ -17,44 +18,32 @@ using std::make_shared;
 using std::shared_ptr;
 using std::vector;
 
-template <typename T>
-void draw(const T& x, ostream& out, size_t position)
-{
-    out << string(position, ' ') << x << endl;
-}
+template<typename T>
+void draw(const T &x, ostream &out, size_t position) { out << string(position, ' ') << x << endl; }
 
 class object_t
 {
 public:
     template<typename T>
     object_t(T x) : m_Self(make_shared<model < T>>(move(x)))
-    {
-    }
+    { }
 
-    friend void draw(const object_t &x, ostream &out, size_t position)
-    {
-        x.m_Self->draw_intern(out, position); 
-    }
+    friend void draw(const object_t &x, ostream &out, size_t position) { x.m_Self->internal_draw(out, position); }
 
 private:
     struct concept_t
     {
         virtual ~concept_t() = default;
 
-        virtual void draw_intern(ostream &, size_t) const = 0;
+        virtual void internal_draw(ostream &, size_t) const = 0;
     };
 
     template<typename T>
     struct model : concept_t
     {
-        model(T x) : m_Data(move(x)) 
-        {
-        }
+        model(T x) : m_Data(move(x)) { }
 
-        void draw_intern(ostream &out, size_t position) const
-        {
-            draw(m_Data, out, position);
-        }
+        void internal_draw(ostream &out, size_t position) const { draw(m_Data, out, position); }
 
         T m_Data;
     };
@@ -70,6 +59,26 @@ void draw(const document_t &x, ostream &out, size_t position)
     for (auto &e : x)
         draw(e, out, position + 2);
     out << string(position, ' ') << "</document>" << endl;
+}
+
+using history_t = vector<document_t>;
+
+void commit(history_t &x)
+{
+    assert(x.size());
+    x.push_back(x.back());
+}
+
+void undo(history_t &x)
+{
+    assert(x.size());
+    x.pop_back();
+}
+
+document_t &current(history_t &x)
+{
+    assert(x.size());
+    return x.back();
 }
 
 #endif //CMAKE_ORG_TUTORIAL_OBJECT_H
