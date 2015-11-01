@@ -51,12 +51,18 @@ private:
     shared_ptr<const concept_t> m_Self;
 };
 
-using document_t = vector<object_t>;
+class document_t
+{
+public:
+    vector<object_t> m_Childs;
+};
+
+//using document_t = vector<object_t>;
 
 void draw(const document_t &x, ostream &out, size_t position)
 {
     out << string(position, ' ') << "<document>" << endl;
-    for (auto &e : x)
+    for (auto &e : x.m_Childs)
         draw(e, out, position + 2);
     out << string(position, ' ') << "</document>" << endl;
 }

@@ -136,7 +136,7 @@ configure_file (
 # so that we will find TutorialConfig.h
 include_directories("${PROJECT_BINARY_DIR}")
 
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES main.cpp CerealExampleClasses.cpp)
 add_executable(cmake_org_tutorial ${SOURCE_FILES})
 
 # add the executable

@@ -5,6 +5,16 @@
 #ifndef CMAKE_ORG_TUTORIAL_CEREALEXAMPLECLASSES_H
 #define CMAKE_ORG_TUTORIAL_CEREALEXAMPLECLASSES_H
 
+
+#ifdef USE_CEREAL
+#include <cereal.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/archives/xml.hpp>
+#include <cereal/types/base_class.hpp>
+#include "CerealExampleClasses.h"
+#include <fstream>
+#endif
+
 struct MyData
 {
     int x, y, z;
@@ -119,5 +129,6 @@ struct VirtualDerived : virtual Left, virtual Right
 // If we had not used virtual_base_class, two copies of the base class may have been serialized,
 // resulting in duplicate x entries.
 
+void TestCereal();
 
 #endif //CMAKE_ORG_TUTORIAL_CEREALEXAMPLECLASSES_H

@@ -9,14 +9,7 @@
 #include "TutorialConfig.h"
 #include "object.h"
 
-#ifdef USE_CEREAL
-#include <cereal.hpp>
-#include <cereal/archives/json.hpp>
-#include <cereal/archives/xml.hpp>
-#include <cereal/types/base_class.hpp>
 #include "CerealExampleClasses.h"
-#include <fstream>
-#endif
 
 #ifdef USE_MYMATH
 #include "mysqrt.h"
@@ -36,6 +29,8 @@ class their_class_t
 {
 /* ... */
 };
+
+void TestCereal();
 
 void draw(const their_class_t&, std::ostream& out, size_t position)
 {
@@ -69,47 +64,7 @@ int main (int argc, char *argv[])
             inputValue, outputValue);
 
 #ifdef USE_CEREAL
-        {
-            std::ofstream os("data.json");
-            cereal::JSONOutputArchive archive(os);
-            cereal::JSONOutputArchive archive2(std::cout);
-
-            MyData m1;
-            m1.x = 1, m1.y = 2, m1.z = 3;
-            int someInt;
-            double dou;
-            Base b;
-            b.x = 25;
-            b.col.col = BLUE;
-            Derived d;
-            d.y = 50;
-
-            archive(CEREAL_NVP(m1), // Names the output the same as the variable name
-                    someInt,        // No NVP - cereal will automatically generate an enumerated name
-                    cereal::make_nvp("this name is way better", dou), // specify a name of your choosing
-                    cereal::make_nvp("Base", b),// specify a name of your choosing
-                    cereal::make_nvp("Derived", d)); // specify a name of your choosing
-            archive2(CEREAL_NVP(m1), // Names the output the same as the variable name
-                     someInt,        // No NVP - cereal will automatically generate an enumerated name
-                     cereal::make_nvp("this name is way better", dou), // specify a name of your choosing
-                     cereal::make_nvp("Base", b),// specify a name of your choosing
-                     cereal::make_nvp("Derived", d)); // specify a name of your choosing
-
-    }
-
-    {
-        std::ifstream is("data.json");
-        cereal::JSONInputArchive archive(is);
-
-        MyData m1;
-        int someInt;
-        double dou;
-        Base b;
-        Derived d;
-
-        archive( m1, someInt, dou, b, d ); // NVPs not strictly necessary when loading
-        // but could be used (even out of order)
-    }
+    TestCereal();
 #endif
 
     using std::cout;
@@ -119,18 +74,18 @@ int main (int argc, char *argv[])
 
     history_t h(1);
 
-    current(h).emplace_back(0);
-    current(h).emplace_back(string("Hello!"));
+    current(h).m_Childs.emplace_back(0);
+    current(h).m_Childs.emplace_back(string("Hello!"));
 
     draw(current(h), cout, 0);
     cout << "--------------------------" << endl;
 
     commit(h);
 
-    current(h).emplace_back(current(h));
-    current(h).emplace_back(my_class_t());
-    current(h)[1] = string("World");
-    current(h).emplace_back(their_class_t());
+    current(h).m_Childs.emplace_back(current(h));
+    current(h).m_Childs.emplace_back(my_class_t());
+    current(h).m_Childs[1] = string("World");
+    current(h).m_Childs.emplace_back(their_class_t());
 
     draw(current(h), cout, 0);
     cout << "--------------------------" << endl;
@@ -141,3 +96,4 @@ int main (int argc, char *argv[])
 
     return 0;
 }
+
