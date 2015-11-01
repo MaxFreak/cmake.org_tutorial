@@ -51,10 +51,52 @@ private:
     shared_ptr<const concept_t> m_Self;
 };
 
+//typedef vector<object_t> DocumentVector;
+using DocumentVector = vector<object_t>;
+
 class document_t
 {
 public:
-    vector<object_t> m_Childs;
+//    typedef DocumentVector::const_iterator const_iterator;
+    using const_iterator = DocumentVector::const_iterator;
+
+    template <class... Args>
+    void emplace_back(Args&&... args)
+    {
+        m_Childs.emplace_back(std::forward<Args>(args)...);
+    }
+
+    template <class... Args>
+    typename DocumentVector::reference
+    operator[](Args&&... args)
+    {
+        return m_Childs.operator[](std::forward<Args>(args)...);
+    }
+
+    template <class... Args>
+    typename DocumentVector::reference
+    operator[](Args&&... args) const
+    {
+        return m_Childs.operator[](std::forward<Args>(args)...);
+    }
+
+    DocumentVector::size_type size()
+    {
+        return m_Childs.size();
+    }
+
+    const_iterator begin() const
+    {
+        return m_Childs.begin();
+    }
+
+    const_iterator end() const
+    {
+        return m_Childs.end();
+    }
+private:
+
+    DocumentVector m_Childs;
 };
 
 //using document_t = vector<object_t>;
@@ -62,7 +104,7 @@ public:
 void draw(const document_t &x, ostream &out, size_t position)
 {
     out << string(position, ' ') << "<document>" << endl;
-    for (auto &e : x.m_Childs)
+    for (auto &e : x)
         draw(e, out, position + 2);
     out << string(position, ' ') << "</document>" << endl;
 }

@@ -74,18 +74,20 @@ int main (int argc, char *argv[])
 
     history_t h(1);
 
-    current(h).m_Childs.emplace_back(0);
-    current(h).m_Childs.emplace_back(string("Hello!"));
+    current(h).emplace_back(0);
+    current(h).emplace_back(string("Hello!"));
 
     draw(current(h), cout, 0);
     cout << "--------------------------" << endl;
 
     commit(h);
 
-    current(h).m_Childs.emplace_back(current(h));
-    current(h).m_Childs.emplace_back(my_class_t());
-    current(h).m_Childs[1] = string("World");
-    current(h).m_Childs.emplace_back(their_class_t());
+    current(h).emplace_back(current(h));
+    current(h).emplace_back(my_class_t());
+    current(h)[1] = string("World");
+    current(h).emplace_back(their_class_t());
+    document_t doc = current(h);
+    doc.operator[](1) = string("World");
 
     draw(current(h), cout, 0);
     cout << "--------------------------" << endl;
