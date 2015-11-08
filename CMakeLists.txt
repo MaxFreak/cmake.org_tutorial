@@ -3,7 +3,7 @@ project(cmake_org_tutorial)
 
 include(FeatureSummary)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14")
 
 # The version number.
 set(BUILD_VERSION_MAJOR 1)
@@ -137,9 +137,9 @@ configure_file (
 include_directories("${PROJECT_BINARY_DIR}")
 
 # add the GSL directory to enable access to GSL means CPP Core Guidelines
-include_directories("${PROJECT_BINARY_DIR}")
+include_directories("./GSL")
 
-set(SOURCE_FILES main.cpp CerealExampleClasses.cpp)
+set(SOURCE_FILES main.cpp CerealExampleClasses.cpp GSL_Sample.cpp GSL_Sample.h)
 add_executable(cmake_org_tutorial ${SOURCE_FILES})
 
 # add the executable

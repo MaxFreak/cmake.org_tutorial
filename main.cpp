@@ -5,11 +5,13 @@
 #include <math.h>
 #include <sstream>
 #include <string>
+#include <gsl.h>
 
 #include "TutorialConfig.h"
 #include "object.h"
 
 #include "CerealExampleClasses.h"
+#include "GSL_Sample.h"
 
 #ifdef USE_MYMATH
 #include "mysqrt.h"
@@ -62,6 +64,9 @@ int main (int argc, char *argv[])
 
     fprintf(stdout,"The square root of %g is %g\n",
             inputValue, outputValue);
+
+    GSL_Sample kGSL_Sample;
+    kGSL_Sample.Sample();
 
 #ifdef USE_CEREAL
     TestCereal();
