@@ -89,10 +89,9 @@ int main (int argc, char *argv[])
 
     current(h).emplace_back(current(h));
     current(h).emplace_back(my_class_t());
+    // current(h).m_Childs[1] = string("World");
     current(h)[1] = string("World");
     current(h).emplace_back(their_class_t());
-    document_t doc = current(h);
-    doc.operator[](1) = string("World");
 
     draw(current(h), cout, 0);
     cout << "--------------------------" << endl;

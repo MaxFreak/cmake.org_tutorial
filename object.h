@@ -94,7 +94,7 @@ public:
     {
         return m_Childs.end();
     }
-private:
+public:
 
     DocumentVector m_Childs;
 };
